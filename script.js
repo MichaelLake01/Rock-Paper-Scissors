@@ -8,13 +8,19 @@ function game()
 
 function playRound(playerSelection, computerSelection, rounds)
 {
-  
+    let score = 0
+    plyInput = playerSelection.toLowerCase();
+    
+
 }
 
 
 function getComputerChoice()
 {
-    return Math.random() * 3;
+    gameArray = ["rock", "paper", "scissors"]
+    let compInput = Math.random() * 2;
+    return gameArray[compInput];
+   
 }
 
 function getPlayerSelection()
