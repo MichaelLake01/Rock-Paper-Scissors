@@ -1,44 +1,63 @@
 
+
+const buttons = document.querySelectorAll('button');
+const scoreBoard = document.querySelector('#score-board');
 const rulesArray = ["rock", "scissors", "paper"];
-let score = [0,0]
+let score = [0,0];
+let rounds = 5;
 
-function game()
+const compMove = document.createElement('div');
+const wonRound = document.createElement('div');
+const currentScore = document.createElement('div');
+const remainingRounds = document.createElement('div');
+const winner = document.createElement('h2');
+
+
+const boardArgs = [compMove, wonRound, currentScore, remainingRounds, winner];
+
+
+buttons.forEach(btn => btn.addEventListener('click', function(e)
 {
-    const rounds = prompt("How many rounds would you like to play? ");
-    for (let i = 1; i <= rounds; i++) 
-    {   
-        i -= playRound(getPlayerSelection(), getComputerChoice(), rounds - i)
-    }
-}
+    e.stopPropagation();
+    playRound(btn.className, getComputerChoice(), rounds--)
 
+}));
+
+
+function setup()
+{
+    boardArgs.forEach(e => {
+        scoreBoard.appendChild(e);
+        
+    });
+}
 
 function playRound(playerSelection, computerSelection, roundsLeft)
 {
-    let plyInput = rulesArray.indexOf(playerSelection.toLowerCase());
-    
+    console.log("comp" + computerSelection);
+    let plyInput = rulesArray.indexOf(playerSelection);
+    console.log(playerSelection);
   
     if((computerSelection === 0 && plyInput === 1) || 
     (computerSelection === 1 && plyInput === 2) ||
     (computerSelection === 2 && plyInput === 0))
     {
         score[0]++;
-        print("computer", rulesArray[computerSelection], rulesArray[plyInput], roundsLeft)
+        print("Computer", rulesArray[computerSelection], rulesArray[plyInput], roundsLeft)
     }
     else if(computerSelection === plyInput)
     {
-        console.clear();
-        console.log("Tie! Try again.");
-        return 1;
+        
+        alert("Tied! Try again.");
+        
     }
     else
     {
         score[1]++;
-        print("player", rulesArray[plyInput], rulesArray[computerSelection], roundsLeft)
+        print("Player", rulesArray[plyInput], rulesArray[computerSelection], roundsLeft)
 
     }   
         
-    return 0;
-
 }
 
 function getComputerChoice()
@@ -47,34 +66,29 @@ function getComputerChoice()
    
 }
 
-function getPlayerSelection()
-{
-    let badInput = true;
-    do {
-        let input = prompt("Rock Paper Scissors? ");
-        if(rulesArray.includes(input.toLowerCase()))
-        {
-            badInput = false
-            return input.toLowerCase(); 
-        }
-    } while (badInput);
-       
-}
 
 function print(result, hand, oHand, roundLeft)
 {   
-    console.clear();
-
-    console.log(`Computer played ${oHand}! Player played ${hand}!`);
-    console.log(`${result} won this round with ${hand}!`);
-    console.log(`Current score: Player ${score[1]} Computer ${score[0]}`);
-    console.log(`Rounds left: ${roundLeft}`);
+    compMove.textContent = `Computer played ${oHand}!`;
+    wonRound.textContent = `${result} won this round with ${hand}!`;
+    currentScore.textContent = `Current score: Player: ${score[1]}, Computer: ${score[0]}`;
+    remainingRounds.textContent = `Rounds left: ${roundLeft}`;
 
     if(roundLeft === 0)
     {
-        console.log(`*******************************************************************`);
-        console.log(`The winner is ${result}! With a score of ${score[0] > score[1] ? score[0] : score[1]}!`);
+        boardArgs.forEach(e => {
+            if(e.tagName === "DIV")
+            {
+                console.log(e.tagName);
+                e.remove();
+            }
+          
+        });
+        
+
+        winner.textContent = `The Winner is ${result}! With a Score of ${score[0] > score[1] ? score[0] : score[1]}!`;
     }
 }
 
-game();
+
+setup();
