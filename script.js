@@ -13,15 +13,14 @@ const winner = document.createElement('h2');
 
 const boardArgs = [compMove, wonRound, currentScore, remainingRounds, winner];
 
-buttons.forEach(btn => btn.addEventListener('click', function(e)
-{
+buttons.forEach(btn => btn.addEventListener('click', function(e) {
     e.stopPropagation();
-    if(rounds > 0)
-    {
-        playRound(btn.className, getComputerChoice(), rounds--);
-
+    if (rounds >= 0) {
+      const playerSelection = btn.className;
+      const computerSelection = getComputerChoice();
+      playRound(playerSelection, computerSelection, rounds);
+      rounds--;
     }
-       
 }));
 
 
@@ -33,27 +32,32 @@ function setup()
     });
 }
 
-function playRound(playerSelection, computerSelection, roundsLeft)
-{
-    let plyInput = rulesArray.indexOf(playerSelection);
+function playRound(plyInput, computerSelection, roundsLeft)
+{   
+
   
-    if((computerSelection === 0 && plyInput === 1) || 
-    (computerSelection === 1 && plyInput === 2) ||
-    (computerSelection === 2 && plyInput === 0))
+    if((computerSelection === "rock" && plyInput === "scissors") || 
+    (computerSelection === "scissors" && plyInput === "paper") ||
+    (computerSelection === "paper" && plyInput === "rock"))
     {
+        console.log(computerSelection + "  " + plyInput + " compwin");
         score[0]++;
-        print("Computer", rulesArray[computerSelection], rulesArray[plyInput], roundsLeft)
+        print("Computer", computerSelection, plyInput, roundsLeft)
     }
     else if(computerSelection === plyInput)
     {
         
+        console.log(computerSelection + "  " + plyInput + " tie");
+
         alert("Tied! Try again.");
         
     }
     else
     {
+        console.log(computerSelection + "  " + plyInput + " plywin");
+
         score[1]++;
-        print("Player", rulesArray[plyInput], rulesArray[computerSelection], roundsLeft)
+        print("Player", plyInput, computerSelection, roundsLeft)
 
     }   
         
@@ -61,15 +65,15 @@ function playRound(playerSelection, computerSelection, roundsLeft)
 
 function getComputerChoice()
 {
-    return Math.floor(Math.random() * 2);
+    return rulesArray[Math.floor(Math.random() * 2)];
    
 }
 
 
-function print(result, hand, oHand, roundLeft)
+function print(win, hand, oHand, roundLeft)
 {   
     compMove.textContent = `Computer played ${oHand}!`;
-    wonRound.textContent = `${result} won this round with ${hand}!`;
+    wonRound.textContent = `${win} won this round with ${hand}!`;
     currentScore.textContent = `Current score: Player: ${score[1]}, Computer: ${score[0]}`;
     remainingRounds.textContent = `Rounds left: ${roundLeft}`;
 
@@ -78,14 +82,13 @@ function print(result, hand, oHand, roundLeft)
         boardArgs.forEach(e => {
             if(e.tagName === "DIV")
             {
-                console.log(e.tagName);
                 e.remove();
             }
           
         });
         
 
-        winner.textContent = `The Winner is ${result}! With a Score of ${score[0] > score[1] ? score[0] : score[1]}!`;
+        winner.textContent = `The Winner is ${win}! With a Score of ${score[0] > score[1] ? score[0] : score[1]}!`;
     }
 }
 
