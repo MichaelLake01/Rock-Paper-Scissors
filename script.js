@@ -5,22 +5,23 @@ const scoreBoard = document.querySelector('#score-board');
 const rulesArray = ["rock", "scissors", "paper"];
 let score = [0,0];
 let rounds = 5;
-
 const compMove = document.createElement('div');
 const wonRound = document.createElement('div');
 const currentScore = document.createElement('div');
 const remainingRounds = document.createElement('div');
 const winner = document.createElement('h2');
 
-
 const boardArgs = [compMove, wonRound, currentScore, remainingRounds, winner];
-
 
 buttons.forEach(btn => btn.addEventListener('click', function(e)
 {
     e.stopPropagation();
-    playRound(btn.className, getComputerChoice(), rounds--)
+    if(rounds > 0)
+    {
+        playRound(btn.className, getComputerChoice(), rounds--);
 
+    }
+       
 }));
 
 
@@ -34,9 +35,7 @@ function setup()
 
 function playRound(playerSelection, computerSelection, roundsLeft)
 {
-    console.log("comp" + computerSelection);
     let plyInput = rulesArray.indexOf(playerSelection);
-    console.log(playerSelection);
   
     if((computerSelection === 0 && plyInput === 1) || 
     (computerSelection === 1 && plyInput === 2) ||
