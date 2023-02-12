@@ -1,2 +1,4 @@
 # Rock-Paper-Scissors
-# Simple Rock Paper Scissors game that uses the prompt to get player input and prints the output into the debugger/terminal
+# Simple Rock Paper Scissors game with a basic UI.
+# I have demonstrated skills in DOM manipulation, CSS styling with flex, JavaScript event handling and basic Javascript functionality.
+
